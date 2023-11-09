@@ -11,13 +11,13 @@ Proyecto que aplica los conceptos aprendidos en las clases.
 
 ### Backend
 
-1. Navega al directorio del backend: `cd backend`
+1. Navega al directorio del backend: `cd back`
 2. Instala las dependencias: `npm install`
 3. Inicia el servidor: `npm start`
 
 ### Frontend
 
-1. Navega al directorio del frontend: `cd frontend`
+1. Navega al directorio del frontend: `cd front`
 2. Inicia la aplicación: Abre el archivo `index.html` en tu navegador.
 
 ## Acceso a la aplicación

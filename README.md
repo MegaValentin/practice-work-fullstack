@@ -18,14 +18,7 @@ Proyecto que aplica los conceptos aprendidos en las clases.
 ### Frontend
 
 1. Navega al directorio del frontend: `cd frontend`
-2. Instala las dependencias: `npm install`
-3. Inicia la aplicación: `npm start`
-
-### Base de Datos 
-
-1. Asegúrate de tener Docker y Docker Compose instalados.
-2. Navega al directorio de la base de datos: `cd db`
-3. Ejecuta `docker-compose up` para iniciar la base de datos.
+2. Inicia la aplicación: Abre el archivo `index.html` en tu navegador.
 
 ## Acceso a la aplicación
 

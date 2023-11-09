@@ -2,13 +2,13 @@
 FROM node:latest
 
 # Directorio de trabajo
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copio los archivos de tu aplicación al contenedor
 COPY package*.json ./
 
 # Instalo las depencias
-RUN npm install
+RUN npm install 
 
 # Copio el resto de los archivos
 COPY . .

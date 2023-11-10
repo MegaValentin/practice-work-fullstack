@@ -1,1 +1,52 @@
+#Configuracion del flujo de trabajo
+name: CI/CD with Docker
+
+#Se ejecutara cuando haya cambios en el repositorio
+on:
+  push:
+    branches:
+      - mega #cuando se realice un push en la rama "mega"
+
+#Definicion de trabajos
+jobs:
+  build:     #construir la imagen de Docker
+    runs-on: ubuntu-latest    #se ejecuta la maquina con ubunto
+  
+  #Lista de pasos a seguir en este trabajo
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker Image  #ejecucion del comando docker buil
+      run: docker build -t my-docker-image .
+
+    - name: Push Docker Image to Registry
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker tag my-docker-image ${{ secrets.DOCKER_REGISTRY }}/my-docker-image:latest
+        docker push ${{ secrets.DOCKER_REGISTRY }}/my-docker-image:latest
+
+  #Despliegue en el servidor
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository #obtencion del codigo del repositorio
+      uses: actions/checkout@v2
+
+    - name: Deploy to Server
+      run: |
+        ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'bash -s' < deploy.sh
+
+    - name: Set Up Environment Variables
+      run: |
+        echo "export POSTGRES_HOST=${{ secrets.DB_HOST }}" >> $GITHUB_ENV
+        echo "export POSTGRES_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+        echo "export POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+        echo "export POSTGRES_DB=${{ secrets.DB_DATABASE }}" >> $GITHUB_ENV
+
+    #Ejecucion de megracion de base de datos en un contenedor Docker
+    - name: Run Database Migrations
+      run: |
+        docker run -e POSTGRES_HOST -e POSTGRES_USER -e POSTGRES_PASSWORD -e POSTGRES_DB my-docker-image npm run migrate
 
